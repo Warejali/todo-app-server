@@ -33,11 +33,11 @@ async function run() {
 
 
 
-        // Delete Product
+        // Delete todo
         app.delete('/todo/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
-            const result = await productCollection.deleteOne(query)
+            const result = await todoCollection.deleteOne(query)
             res.send(result)
         })
 
