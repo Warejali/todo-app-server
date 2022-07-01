@@ -55,6 +55,22 @@ async function run() {
         })
 
 
+        app.put('/todo/:id', async (req, res) => {
+            const id = req.params.id;
+            const updateTodo = req.body;
+            const filter = { _id: ObjectId(id) };
+            // const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    name: updateTodo.name,
+                    description: updateTodo.description,
+                }
+            };
+            const result = await todoCollection.updateOne(filter, updateDoc);
+            res.send(result)
+        })
+
+
 
     }
     finally {
