@@ -9,7 +9,6 @@ app.use(cors());
 app.use(express.json())
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.6bl2t.mongodb.net/?retryWrites=true&w=majority`;
-console.log(uri);
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 async function run() {
@@ -21,21 +20,21 @@ async function run() {
         // For todo
         app.get('/product', async (req, res) => {
             const query = {};
-            const cursor = productCollection.find(query);
-            const products = await cursor.toArray();
-            res.send(products);
+            const cursor = todoCollection.find(query);
+            const todo = await cursor.toArray();
+            res.send(todo);
         })
-        app.get('/product/:id', async (req, res) => {
+        app.get('/todo/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
-            const product = await productCollection.findOne(query)
+            const todo = await todoCollection.findOne(query)
             res.send(product)
         })
 
 
 
         // Delete Product
-        app.delete('/product/:id', async (req, res) => {
+        app.delete('/todo/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const result = await productCollection.deleteOne(query)
@@ -50,7 +49,7 @@ async function run() {
 
 
         // for all todo
-        app.get('/orders', async (req, res) => {
+        app.get('/todo', async (req, res) => {
             const todo = await todoCollection.find().toArray()
             res.send(todo)
         })
